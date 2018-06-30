@@ -17,6 +17,12 @@ require("awful.hotkeys_popup.keys")
 -- Load Debian menu entries
 local debian = require("debian.menu")
 
+-- filesystem
+local lfs = require("lfs")
+
+function script_path()
+    return debug.getinfo(1).source:match("@(.*)rc.lua$")
+end
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -46,7 +52,8 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
-beautiful.get().wallpaper = "/home/nils/Downloads/wallpaper.jpg"
+-- beautiful.get().wallpaper = "/home/nils/Downloads/wallpaper.jpg"
+beautiful.get().wallpaper = script_path() .. "wallpaper.jpg"
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
