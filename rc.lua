@@ -273,9 +273,9 @@ globalkeys = gears.table.join(
               {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
+    awful.key({ modkey, "Control"   }, "Right", function () awful.client.swap.byidx(  1)    end,
               {description = "swap with next client by index", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
+    awful.key({ modkey, "Control"   }, "Left", function () awful.client.swap.byidx( -1)    end,
               {description = "swap with previous client by index", group = "client"}),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,
               {description = "focus the next screen", group = "screen"}),
@@ -391,7 +391,7 @@ clientkeys = gears.table.join(
         {description = "(un)maximize horizontally", group = "client"}),
 
     -- move windows through tags with arrow keys
-    awful.key({ modkey, "Control" }, "Right",
+    awful.key({ modkey, "Shift" }, "Right",
         function (c)
             local tags = awful.screen.focused().tags
             local currentTag = awful.screen.focused().selected_tag
@@ -404,7 +404,7 @@ clientkeys = gears.table.join(
         end,
         { description = "move focused client to the next tag", group = "client" }
     ),
-    awful.key({ modkey, "Control" }, "Left",
+    awful.key({ modkey, "Shift" }, "Left",
         function (c)
             local tags = awful.screen.focused().tags
             local currentTag = awful.screen.focused().selected_tag
