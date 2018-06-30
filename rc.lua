@@ -62,7 +62,7 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 -- beautiful.init(script_path() .. "awesome-copycats/themes/powerarrow/theme.lua")
 -- beautiful.get().wallpaper = "/home/nils/Downloads/wallpaper.jpg"
--- beautiful.get().wallpaper = script_path() .. "wallpaper.jpg"
+beautiful.get().wallpaper = script_path() .. "wallpaper.jpg"
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
