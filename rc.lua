@@ -24,6 +24,14 @@ function script_path()
     return debug.getinfo(1).source:match("@(.*)rc.lua$")
 end
 
+-- add some useful widgets.
+local vicious = require("vicious")
+
+
+
+
+
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -52,8 +60,9 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+-- beautiful.init(script_path() .. "awesome-copycats/themes/powerarrow/theme.lua")
 -- beautiful.get().wallpaper = "/home/nils/Downloads/wallpaper.jpg"
-beautiful.get().wallpaper = script_path() .. "wallpaper.jpg"
+-- beautiful.get().wallpaper = script_path() .. "wallpaper.jpg"
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
@@ -217,6 +226,15 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
+    memwidget = wibox.widget.textbox()
+    vicious.register(memwidget, vicious.widgets.mem, "$1 ($2MB/$3MB)", 13)
+    cpuwidget = awful.widget.graph()
+    cpuwidget:set_width(50)
+    -- cpuwidget:set_background_color("#494B4F")
+    cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 50, 0 },
+                          stops = { { 0, "#FF5656" }, { 0.5, "#88A175" }, { 1, "#AECF96" }}})
+    vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 3)
+
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
@@ -228,11 +246,13 @@ awful.screen.connect_for_each_screen(function(s)
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
+            cpuwidget,
+            memwidget,
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
-            s.mylayoutbox,
+            s.mylayoutbox
         },
     }
 end)
@@ -596,6 +616,18 @@ client.connect_signal("mouse::enter", function(c)
     end
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+-- client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+-- client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+-- {{{ focus / unfocus --> transparency
+client.connect_signal("focus", function(c) c.opacity = 1. end)
+client.connect_signal("unfocus", function(c) c.opacity = 0.95 end)
+-- }}}
+
+
+
+
+-- {{ autostart applications
+awful.spawn("compton -b")
+-- }}
