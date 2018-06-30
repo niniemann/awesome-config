@@ -388,7 +388,35 @@ clientkeys = gears.table.join(
             c.maximized_horizontal = not c.maximized_horizontal
             c:raise()
         end ,
-        {description = "(un)maximize horizontally", group = "client"})
+        {description = "(un)maximize horizontally", group = "client"}),
+
+    -- move windows through tags with arrow keys
+    awful.key({ modkey, "Control" }, "Right",
+        function (c)
+            local tags = awful.screen.focused().tags
+            local currentTag = awful.screen.focused().selected_tag
+            local nextIndex = currentTag.index+1
+            if nextIndex > #tags then
+                nextIndex = 1
+            end
+            c:move_to_tag(tags[nextIndex])
+            tags[nextIndex]:view_only()
+        end,
+        { description = "move focused client to the next tag", group = "client" }
+    ),
+    awful.key({ modkey, "Control" }, "Left",
+        function (c)
+            local tags = awful.screen.focused().tags
+            local currentTag = awful.screen.focused().selected_tag
+            local nextIndex = currentTag.index-1
+            if nextIndex < 1 then
+                nextIndex = #tags
+            end
+            c:move_to_tag(tags[nextIndex])
+            tags[nextIndex]:view_only()
+        end,
+        { description = "move focused client to the previous tag", group = "client" }
+    )
 )
 
 -- Bind all key numbers to tags.
