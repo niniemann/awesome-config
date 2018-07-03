@@ -225,14 +225,40 @@ awful.screen.connect_for_each_screen(function(s)
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
-    memwidget = wibox.widget.textbox()
-    vicious.register(memwidget, vicious.widgets.mem, "$1 ($2MB/$3MB)", 13)
+    -- memwidget = wibox.widget.textbox()
+    -- vicious.register(memwidget, vicious.widgets.mem, "$1 ($2MB/$3MB)", 13)
+    memwidget = wibox.widget.progressbar()
+    membox = wibox.widget {
+        {
+            widget = memwidget,
+            max_value = 1,
+            value = 0.3,
+        },
+        layout = wibox.container.rotate,
+        direction = 'east',
+        forced_width = 10,
+        forced_height = 10,
+    }
+    vicious.register(memwidget, vicious.widgets.mem, "$1", 5)
+
+    batwidget = wibox.widget.progressbar()
+    batbox = wibox.widget {
+        {
+            widget = batwidget,
+            max_value = 1,
+        },
+        layout = wibox.container.rotate,
+        direction = 'east',
+        forced_width = 10,
+    }
+    vicious.register(batwidget, vicious.widgets.bat, "$2", 30, "BAT0")
+
     cpuwidget = awful.widget.graph()
     cpuwidget:set_width(50)
     -- cpuwidget:set_background_color("#494B4F")
     cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 50, 0 },
                           stops = { { 0, "#FF5656" }, { 0.5, "#88A175" }, { 1, "#AECF96" }}})
-    vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 3)
+    vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 1)
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -246,7 +272,8 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             cpuwidget,
-            memwidget,
+            membox,
+            batbox,
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
