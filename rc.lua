@@ -309,6 +309,13 @@ awful.rules.rules = {
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
      }
     },
+    -- disable size honoring for terminals
+    {
+        rule = { class = "Gnome-terminal" },
+        properties = {
+            size_hints_honor = false,
+        },
+    },
 
     -- Floating clients.
     { rule_any = {
