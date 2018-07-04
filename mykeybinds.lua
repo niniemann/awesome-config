@@ -55,6 +55,9 @@ globalkeys = gears.table.join(
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
+    -- lock screen
+    awful.key({ "Control", "Mod1"}, "l",       function () awful.util.spawn("gnome-screensaver-command --lock") end,
+              {description = "lock screen", group = "launcher"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
