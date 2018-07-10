@@ -26,6 +26,8 @@ end
 -- add some useful widgets.
 local vicious = require("vicious")
 
+volume_widget = require("awesome-wm-widgets.volume-widget.volume")
+volume_bar = require("awesome-wm-widgets.volumebar-widget.volumebar")
 
 
 
@@ -257,9 +259,10 @@ awful.screen.connect_for_each_screen(function(s)
     cpuwidget = awful.widget.graph()
     cpuwidget:set_width(50)
     -- cpuwidget:set_background_color("#494B4F")
-    cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 50, 0 },
-                          stops = { { 0, "#FF5656" }, { 0.5, "#88A175" }, { 1, "#AECF96" }}})
+    cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 100 },
+                          stops = { { 0, "#FF0000" }, { 0.5, "#00FF00" }}})
     vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 1)
+
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -272,6 +275,8 @@ awful.screen.connect_for_each_screen(function(s)
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
+            volume_widget,
+            volume_bar,
             cpuwidget,
             membox,
             batbox,
@@ -434,4 +439,5 @@ client.connect_signal("unfocus", function(c) c.opacity = 0.9 end)
 
 -- {{ autostart applications
 awful.spawn("compton -b")
+awful.spawn("nm-applet")
 -- }}
