@@ -31,6 +31,12 @@ volume_bar = require("awesome-wm-widgets.volumebar-widget.volumebar")
 
 
 
+    cpuwidget = awful.widget.graph()
+    cpuwidget:set_width(50)
+    -- cpuwidget:set_background_color("#494B4F")
+    cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 100 },
+                         stops = { { 0, "#FF0000" }, { 0.5, "#00FF00" }}})
+    vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 1)
 
 
 -- {{{ Error handling
@@ -256,12 +262,12 @@ awful.screen.connect_for_each_screen(function(s)
     }
     vicious.register(batwidget, vicious.widgets.bat, "$2", 30, "BAT0")
 
-    cpuwidget = awful.widget.graph()
-    cpuwidget:set_width(50)
+    -- cpuwidget = awful.widget.graph()
+    -- cpuwidget:set_width(50)
     -- cpuwidget:set_background_color("#494B4F")
-    cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 100 },
-                          stops = { { 0, "#FF0000" }, { 0.5, "#00FF00" }}})
-    vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 1)
+    -- cpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 100 },
+    --                      stops = { { 0, "#FF0000" }, { 0.5, "#00FF00" }}})
+    -- vicious.register(cpuwidget, vicious.widgets.cpu, "$1", 1)
 
 
     -- Add widgets to the wibox
