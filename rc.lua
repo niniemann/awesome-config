@@ -28,7 +28,9 @@ local vicious = require("vicious")
 
 volume_widget = require("awesome-wm-widgets.volume-widget.volume")
 volume_bar = require("awesome-wm-widgets.volumebar-widget.volumebar")
-
+volume_bar._private.margins.top = 9
+volume_bar._private.margins.bottom = 9
+volume_bar._private.margins.left = 5
 
 
     cpuwidget = awful.widget.graph()
