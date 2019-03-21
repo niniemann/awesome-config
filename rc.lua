@@ -72,6 +72,10 @@ beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 -- beautiful.init(script_path() .. "awesome-copycats/themes/powerarrow/theme.lua")
 -- beautiful.get().wallpaper = "/home/nils/Downloads/wallpaper.jpg"
 beautiful.get().wallpaper = script_path() .. "wallpaper.jpg"
+beautiful.get().useless_gap = 5
+beautiful.get().border_width = 3
+beautiful.get().border_normal = "#000000"
+beautiful.get().border_focus = "#c0c0c0"
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
@@ -438,8 +442,8 @@ end)
 -- }}}
 
 -- {{{ focus / unfocus --> transparency
-client.connect_signal("focus", function(c) c.opacity = 1. end)
-client.connect_signal("unfocus", function(c) c.opacity = 0.9 end)
+client.connect_signal("focus", function(c) c.opacity = 1.; c.border_color = beautiful.border_focus end)
+client.connect_signal("unfocus", function(c) c.opacity = 0.9; c.border_color = beautiful.border_normal end)
 -- }}}
 
 
