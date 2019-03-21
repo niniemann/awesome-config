@@ -327,12 +327,13 @@ awful.rules.rules = {
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
      }
     },
-    -- disable size honoring for terminals
+    -- disable size honoring for terminals, and always spawn terminals as slaves
     {
         rule = { class = "Gnome-terminal" },
         properties = {
             size_hints_honor = false,
         },
+        callback = awful.client.setslave,
     },
 
     -- Floating clients.
