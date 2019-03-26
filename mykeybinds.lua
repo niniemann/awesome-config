@@ -6,12 +6,37 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
+
+
+    -- super + left / right: switch workspaces
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
+    -- super + up / down: switch focused window in workspace
+    awful.key({modkey,           }, "Up",     function () awful.client.focus.byidx(-1) end,
+              {description = "focus previous by index", group = "client"}),
+    awful.key({modkey,           }, "Down",     function () awful.client.focus.byidx(1) end,
+              {description = "focus next by index", group = "client"}),
+
+    -- super + ctrl + left / right: take focused window to another workspace (previously/also on super + shift + left/right
+    -- see: clientkeys
+
+    -- super + ctrl + up / down: swap focused window with previous/next window on this workspace
+    awful.key({ modkey, "Control"   }, "Up", function () awful.client.swap.byidx(  -1)    end,
+              {description = "swap with next client by index", group = "client"}),
+    awful.key({ modkey, "Control"   }, "Down", function () awful.client.swap.byidx( 1)    end,
+              {description = "swap with previous client by index", group = "client"}),
+    -- same on super + shift + up / down
+    awful.key({ modkey, "Shift"   }, "Up", function () awful.client.swap.byidx(  -1)    end,
+              {description = "swap with next client by index", group = "client"}),
+    awful.key({ modkey, "Shift"   }, "Down", function () awful.client.swap.byidx( 1)    end,
+              {description = "swap with previous client by index", group = "client"}),
+
+
+
 
     awful.key({ modkey,           }, "j",
         function ()
@@ -29,10 +54,6 @@ globalkeys = gears.table.join(
               {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
-    awful.key({ modkey, "Control"   }, "Right", function () awful.client.swap.byidx(  1)    end,
-              {description = "swap with next client by index", group = "client"}),
-    awful.key({ modkey, "Control"   }, "Left", function () awful.client.swap.byidx( -1)    end,
-              {description = "swap with previous client by index", group = "client"}),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,
               {description = "focus the next screen", group = "screen"}),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
@@ -183,7 +204,36 @@ clientkeys = gears.table.join(
             tags[nextIndex]:view_only()
         end,
         { description = "move focused client to the previous tag", group = "client" }
+    ),
+    
+    -- super + ctrl + left / right: take focused window to another workspace (previously/also on super + shift + left/right
+    awful.key({ modkey, "Control" }, "Right",
+        function (c)
+            local tags = awful.screen.focused().tags
+            local currentTag = awful.screen.focused().selected_tag
+            local nextIndex = currentTag.index+1
+            if nextIndex > #tags then
+                nextIndex = 1
+            end
+            c:move_to_tag(tags[nextIndex])
+            tags[nextIndex]:view_only()
+        end,
+        { description = "move focused client to the next tag", group = "client" }
+    ),
+    awful.key({ modkey, "Control" }, "Left",
+        function (c)
+            local tags = awful.screen.focused().tags
+            local currentTag = awful.screen.focused().selected_tag
+            local nextIndex = currentTag.index-1
+            if nextIndex < 1 then
+                nextIndex = #tags
+            end
+            c:move_to_tag(tags[nextIndex])
+            tags[nextIndex]:view_only()
+        end,
+        { description = "move focused client to the previous tag", group = "client" }
     )
+
 )
 
 -- Bind all key numbers to tags.
