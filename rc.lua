@@ -438,13 +438,14 @@ client.connect_signal("mouse::enter", function(c)
     end
 end)
 
--- client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
--- client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+-- focus / unfocus --> color
+ client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
 -- {{{ focus / unfocus --> transparency
-client.connect_signal("focus", function(c) c.opacity = 1.; c.border_color = beautiful.border_focus end)
-client.connect_signal("unfocus", function(c) c.opacity = 0.9; c.border_color = beautiful.border_normal end)
+--client.connect_signal("focus", function(c) c.opacity = 1.; c.border_color = beautiful.border_focus end)
+--client.connect_signal("unfocus", function(c) c.opacity = 0.9; c.border_color = beautiful.border_normal end)
 -- }}}
 
 
