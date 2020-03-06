@@ -6,6 +6,8 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
+    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
+              {description = "go back", group = "tag"}),
 
 
     -- super + left / right: switch workspaces
@@ -13,8 +15,6 @@ globalkeys = gears.table.join(
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
-              {description = "go back", group = "tag"}),
     -- super + up / down: switch focused window in workspace
     awful.key({modkey,           }, "Up",     function () awful.client.focus.byidx(-1) end,
               {description = "focus previous by index", group = "client"}),
@@ -128,11 +128,14 @@ globalkeys = gears.table.join(
 
     -- volume control
     awful.key({ }, "XF86AudioMute", function() awful.spawn("amixer -D pulse sset Master toggle", false) end,
-              {description = "raise volume", group = "audio"}),
+              {description = "mute/unmute", group = "audio"}),
     awful.key({ }, "XF86AudioRaiseVolume", function() awful.spawn("amixer -D pulse sset Master 5%+", false) end,
               {description = "raise volume", group = "audio"}),
     awful.key({ }, "XF86AudioLowerVolume", function() awful.spawn("amixer -D pulse sset Master 5%-", false) end,
-              {description = "lower volume", group = "audio"})
+              {description = "lower volume", group = "audio"}),
+    -- pause / unpause gazebo
+    awful.key({ }, "XF86AudioPlay", function() awful.spawn("toggle_gazebo.sh") end,
+              {desription = "toggle gazebo", group = "ros"})
 )
 
 clientkeys = gears.table.join(
