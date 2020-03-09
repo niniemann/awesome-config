@@ -9,6 +9,14 @@ globalkeys = gears.table.join(
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 
+    -- brightness control
+    awful.key({ }, "XF86MonBrightnessDown",
+              function () awful.util.spawn("light -U 10") end,
+              { description = "lowers screen brightness", group = "monitor" }),
+    awful.key({ }, "XF86MonBrightnessUp",
+              function () awful.util.spawn("light -A 10") end,
+              { description = "increases screen brightness", group = "monitor"}),
+
 
     -- super + left / right: switch workspaces
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
